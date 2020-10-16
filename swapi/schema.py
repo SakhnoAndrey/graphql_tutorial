@@ -1,4 +1,5 @@
 import graphene
+from django.db.models import Q
 from swapi.types import HumanType, Gender
 from swapi.resolvers import (
     resolver_humans,
@@ -11,14 +12,23 @@ from swapi.resolvers import (
 
 class Query(graphene.ObjectType):
     hello = graphene.String()
-    humans = graphene.List(HumanType)
-    human = graphene.Field(HumanType, id=graphene.NonNull(graphene.Int))
 
     def resolve_hello(self, info, **kwargs):
         return "world"
 
-    def resolve_humans(self, info):
-        return resolver_humans()
+    humans = graphene.List(
+        HumanType,
+        search=graphene.String(),
+    )
+
+    def resolve_humans(self, info, search):
+        humans = resolver_humans()
+        if search:
+            filter = Q(name__icontains=search) | Q(home_planet__icontains=search)
+            humans = humans.filter(filter)
+        return humans
+
+    human = graphene.Field(HumanType, id=graphene.NonNull(graphene.Int))
 
     def resolve_human(self, info, id):
         if info.context.user.is_anonymous:
