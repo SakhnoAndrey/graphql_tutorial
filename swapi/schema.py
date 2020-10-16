@@ -19,13 +19,20 @@ class Query(graphene.ObjectType):
     humans = graphene.List(
         HumanType,
         search=graphene.String(),
+        first=graphene.Int(),
+        skip=graphene.Int(),
     )
 
-    def resolve_humans(self, info, search):
+    def resolve_humans(self, info, search, first, skip):
         humans = resolver_humans()
         if search:
             filter = Q(name__icontains=search) | Q(home_planet__icontains=search)
             humans = humans.filter(filter)
+        if skip:
+            humans = humans[skip:]
+
+        if first:
+            humans = humans[:first]
         return humans
 
     human = graphene.Field(HumanType, id=graphene.NonNull(graphene.Int))
