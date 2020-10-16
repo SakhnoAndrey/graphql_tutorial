@@ -52,6 +52,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 ROOT_URLCONF = "graphql_tutorial.urls"
 
 TEMPLATES = [
@@ -123,5 +128,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 GRAPHENE = {
-    "SCHEMA": "graphql_tutorial.schema.schema",
+    "SCHEMA": "pythonSWAPI.schema.schema",
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
 }
