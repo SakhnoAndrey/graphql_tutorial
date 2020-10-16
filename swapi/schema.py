@@ -21,6 +21,8 @@ class Query(graphene.ObjectType):
         return resolver_humans()
 
     def resolve_human(self, info, id):
+        if info.context.user.is_anonymous:
+            raise Exception("You are not authenticated!")
         return resolver_human(id=id)
 
 
