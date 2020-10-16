@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 from graphene_django.views import GraphQLView
 
-from swapi.schema import schema
+from graphql_tutorial.schema import schema
 
 urlpatterns = [
     url(r"^admin/", admin.site.urls),

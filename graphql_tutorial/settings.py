@@ -123,5 +123,5 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 GRAPHENE = {
-    "SCHEMA": "swapi.schema.schema",
+    "SCHEMA": "graphql_tutorial.schema.schema",
 }
