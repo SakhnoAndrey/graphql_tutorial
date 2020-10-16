@@ -31,3 +31,8 @@ def resolver_update_human(id, name, gender, birth_year, mass, height, home_plane
     human.home_planet = home_planet
     human.save()
     return human
+
+
+def resolver_delete_human(id):
+    _ = Human.objects.get(id=id).delete()
+    return

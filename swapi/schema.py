@@ -5,6 +5,7 @@ from swapi.resolvers import (
     resolver_human,
     resolver_create_human,
     resolver_update_human,
+    resolver_delete_human,
 )
 
 
@@ -59,6 +60,15 @@ class Mutation(graphene.ObjectType):
         return resolver_update_human(
             id, name, gender, birth_year, mass, height, home_planet
         )
+
+    delete_human = graphene.Field(
+        graphene.NonNull(graphene.String),
+        id=graphene.NonNull(graphene.Int),
+    )
+
+    def resolve_delete_human(self, info, id):
+        resolver_delete_human(id)
+        return "Deleted successfully!"
 
 
 # 4
