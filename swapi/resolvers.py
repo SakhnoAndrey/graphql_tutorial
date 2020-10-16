@@ -1,4 +1,5 @@
 from swapi.models import Human
+from graphql import GraphQLError
 
 
 def resolver_humans():
@@ -6,7 +7,11 @@ def resolver_humans():
 
 
 def resolver_human(id):
-    return Human.objects.get(id=id)
+    try:
+        return Human.objects.get(id=id)
+    except Human.DoesNotExist:
+        raise GraphQLError("Could not find the human object with given id: " + str(id))
+    return
 
 
 def resolver_create_human(id, name, gender, birth_year, mass, height, home_planet):
